@@ -53,16 +53,15 @@ NON_CRYPTO_COIN_HINTS = {"CL", "XYZ-CL", "GC", "SI"}
 
 GROUPS = [
     ("top", "0. 今日最值得关注", []),
-    ("hot6551", "1. 🔥 6551 热点信号", []),
-    ("opportunity", "2. 🔬 可关注机会", ["launch", "airdrop", "hackathon", "funding", "mainnet", "staking", "yield", "空投", "上线", "融资", "主网", "质押"]),
-    ("stablecoin", "3. 🏦 稳定币 / 支付 / RWA", ["stablecoin", "usdt", "usdc", "tether", "circle", "rwa", "tokenization", "payment", "reserve", "稳定币", "支付", "代币化", "国债"]),
-    ("policy", "4. ⚖️ 监管 / 政策", ["sec", "cftc", "senate", "regulation", "law", "bill", "clarity", "mifid", "mica", "监管", "法案", "参议院", "证监", "合规"]),
-    ("market", "5. 📈 市场 / ETF / 机构", ["bitcoin", "btc", "ether", "ethereum", "etf", "price", "market", "coinbase", "fund", "inflow", "outflow", "比特币", "以太坊", "现货", "净流入", "净流出", "机构"]),
-    ("onchain", "6. 🐳 链上 / 巨鲸 / 聪明钱", ["whale", "onchain", "wallet", "address", "liquidation", "巨鲸", "地址", "链上", "清算", "聪明钱"]),
-    ("defi", "7. 🧩 DeFi / 项目动态", ["defi", "aave", "uniswap", "maker", "dao", "protocol", "layer", "solana", "base", "arbitrum", "项目", "协议"]),
-    ("risk", "8. ⚠️ 风险提示 / 安全事件", ["hack", "exploit", "freeze", "security", "outage", "scam", "risk", "vulnerability", "黑客", "攻击", "冻结", "宕机", "风险", "漏洞"]),
-    ("macro", "9. 🌍 宏观 / 其他", ["fed", "inflation", "jobs", "treasury", "dollar", "oil", "gold", "macro", "就业", "通胀", "美联储", "美元", "黄金", "原油"]),
-    ("social", "10. 🐦 X / 社交热点", []),
+    ("opportunity", "1. 🔬 可关注机会", ["launch", "airdrop", "hackathon", "funding", "mainnet", "staking", "yield", "空投", "上线", "融资", "主网", "质押"]),
+    ("stablecoin", "2. 🏦 稳定币 / 支付 / RWA", ["stablecoin", "usdt", "usdc", "tether", "circle", "rwa", "tokenization", "payment", "reserve", "稳定币", "支付", "代币化", "国债"]),
+    ("policy", "3. ⚖️ 监管 / 政策", ["sec", "cftc", "senate", "regulation", "law", "bill", "clarity", "mifid", "mica", "监管", "法案", "参议院", "证监", "合规"]),
+    ("market", "4. 📈 市场 / ETF / 机构", ["bitcoin", "btc", "ether", "ethereum", "etf", "price", "market", "coinbase", "fund", "inflow", "outflow", "比特币", "以太坊", "现货", "净流入", "净流出", "机构"]),
+    ("onchain", "5. 🐳 链上 / 巨鲸 / 聪明钱", ["whale", "onchain", "wallet", "address", "liquidation", "巨鲸", "地址", "链上", "清算", "聪明钱"]),
+    ("defi", "6. 🧩 DeFi / 项目动态", ["defi", "aave", "uniswap", "maker", "dao", "protocol", "layer", "solana", "base", "arbitrum", "项目", "协议"]),
+    ("risk", "7. ⚠️ 风险提示 / 安全事件", ["hack", "exploit", "freeze", "security", "outage", "scam", "risk", "vulnerability", "黑客", "攻击", "冻结", "宕机", "风险", "漏洞"]),
+    ("macro", "8. 🌍 宏观 / 其他", ["fed", "inflation", "jobs", "treasury", "dollar", "oil", "gold", "macro", "就业", "通胀", "美联储", "美元", "黄金", "原油"]),
+    ("social", "9. 🐦 X / 社交热点", []),
 ]
 
 @dataclass
@@ -322,19 +321,20 @@ def classify(items: list[Item], hot6551: list[Item] | None = None, social: list[
     buckets = {gid: [] for gid, _, _ in GROUPS}
     hot6551 = hot6551 or []
     social = social or []
-    buckets["hot6551"] = sorted(hot6551, key=score_item, reverse=True)[:8]
     buckets["social"] = sorted(social, key=score_item, reverse=True)[:6]
     top_pool = items + hot6551
     top = sorted(top_pool, key=score_item, reverse=True)[:3]
     buckets["top"] = top
     used = set(id(x) for x in top)
-    for it in items:
+    # 6551 is an intelligence layer, not a standalone section: its high-score
+    # items are mixed into the normal topical buckets and surfaced by badges.
+    for it in sorted(top_pool, key=score_item, reverse=True):
         if id(it) in used:
             continue
         text = (it.title + " " + it.summary).lower()
         placed = False
         for gid, _, keywords in GROUPS[1:]:
-            if gid in {"hot6551", "social"}:
+            if gid == "social":
                 continue
             if any(k.lower() in text for k in keywords):
                 if len(buckets[gid]) < 5:
@@ -403,10 +403,10 @@ def render_html(buckets: dict[str, list[Item]], prices: dict) -> str:
         extra = price_cards(prices) if gid == "market" else ""
         klass = "highlight" if gid in {"top"} else ""
         sections.append(f'<section id="{gid}" class="{klass}"><h2>{html.escape(title)}</h2>{extra}{render_items(buckets.get(gid, []))}</section>')
-    sections.append('''<section id="signals" class="highlight"><h2>11. 今日交易 / 叙事信号</h2><ul>
-<li class="signal">优先跟踪 6551 高分 A/A+ 事件；若同时命中多币种标签和社交热度，权重高于普通快讯。</li>
+    sections.append('''<section id="signals" class="highlight"><h2>10. 今日交易 / 叙事信号</h2><ul>
+<li class="signal">6551 高分、A/A+、币种标签与社交热度已融入整体排序；不再单独拆出热点栏目。</li>
 <li class="signal">稳定币监管、ETF 资金流、交易所基础设施风险仍是当前日报的一级变量。</li>
-<li class="signal">宏观/地缘事件会被纳入 Web3 热点层，但需要二次筛选是否真正影响 Crypto。</li>
+<li class="signal">宏观/地缘事件会被纳入 Web3 信号层，但需要二次筛选是否真正影响 Crypto。</li>
 </ul></section>''')
     return f'''<!doctype html>
 <html lang="zh-CN">
@@ -420,8 +420,8 @@ def render_html(buckets: dict[str, list[Item]], prices: dict) -> str:
   </style>
 </head>
 <body>
-  <header class="wrap"><div class="badge">🧪 Auto Brief · Crypto Daily</div><h1>Eason's 每日早报</h1><p class="subtitle">自动生成的 Crypto 新闻聚合：稳定币、ETF/机构资金、链上巨鲸、DeFi、监管、宏观与 6551 热点信号。</p><div class="meta"><span class="pill">日期：{DATE_CN}</span><span class="pill">自动生成</span><span class="pill">6551 增强数据源</span><span class="pill">Asia/Shanghai</span></div></header>
-  <div class="wrap grid"><nav><div class="toc-title">目录</div>{nav}<a href="#signals">11. 今日信号</a></nav><main>{''.join(sections)}</main></div>
+  <header class="wrap"><div class="badge">🧪 Auto Brief · Crypto Daily</div><h1>Eason's 每日早报</h1><p class="subtitle">自动生成的 Crypto 新闻聚合：稳定币、ETF/机构资金、链上巨鲸、DeFi、监管；6551 热点信号已融入整体排序。</p><div class="meta"><span class="pill">日期：{DATE_CN}</span><span class="pill">自动生成</span><span class="pill">6551 增强排序</span><span class="pill">Asia/Shanghai</span></div></header>
+  <div class="wrap grid"><nav><div class="toc-title">目录</div>{nav}<a href="#signals">10. 今日信号</a></nav><main>{''.join(sections)}</main></div>
   <footer class="wrap disclaimer">免责声明：以上为公开新闻聚合与信息整理，不构成投资建议。来源链接均保留用于核查。</footer>
 </body></html>'''
 
