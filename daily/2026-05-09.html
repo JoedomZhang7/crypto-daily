@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI胡搞Crypto早报 · 2026/5/9 试刊</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,.075);
+      --panel-2: rgba(255,255,255,.105);
+      --text: #eef3ff;
+      --muted: #aab6d3;
+      --line: rgba(255,255,255,.14);
+      --accent: #7dd3fc;
+      --accent-2: #c084fc;
+      --warn: #fbbf24;
+      --good: #34d399;
+      --bad: #fb7185;
+      --shadow: 0 22px 70px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(125,211,252,.22), transparent 28rem),
+        radial-gradient(circle at 85% 8%, rgba(192,132,252,.18), transparent 26rem),
+        radial-gradient(circle at 50% 100%, rgba(52,211,153,.10), transparent 30rem),
+        var(--bg);
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(1060px, calc(100% - 32px)); margin: 0 auto; }
+    header { padding: 56px 0 30px; }
+    .badge {
+      display: inline-flex; gap: 8px; align-items: center;
+      color: #dbeafe; background: rgba(125,211,252,.12);
+      border: 1px solid rgba(125,211,252,.24);
+      padding: 6px 12px; border-radius: 999px; font-size: 13px;
+    }
+    h1 { font-size: clamp(34px, 6vw, 64px); line-height: 1.04; margin: 18px 0 14px; letter-spacing: -0.04em; }
+    .subtitle { color: var(--muted); max-width: 760px; font-size: 17px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; color: var(--muted); font-size: 14px; }
+    .pill { border: 1px solid var(--line); background: rgba(255,255,255,.06); padding: 6px 10px; border-radius: 999px; }
+    .grid { display: grid; grid-template-columns: 280px 1fr; gap: 22px; align-items: start; padding-bottom: 60px; }
+    nav { position: sticky; top: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 18px; box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+    nav .toc-title { color: var(--text); font-weight: 700; margin-bottom: 10px; }
+    nav a { display: block; padding: 8px 10px; border-radius: 12px; color: var(--muted); font-size: 14px; }
+    nav a:hover { background: rgba(255,255,255,.08); color: var(--text); text-decoration: none; }
+    main { display: grid; gap: 18px; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 26px; padding: 24px; box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+    h2 { margin: 0 0 14px; font-size: 23px; letter-spacing: -0.02em; }
+    ul { margin: 0; padding-left: 20px; }
+    li { margin: 0 0 14px; }
+    li:last-child { margin-bottom: 0; }
+    .source { display: block; margin-top: 3px; font-size: 13px; color: var(--muted); }
+    .highlight { background: linear-gradient(135deg, rgba(125,211,252,.14), rgba(192,132,252,.12)); border-color: rgba(125,211,252,.28); }
+    .signal { border-left: 4px solid var(--good); padding-left: 16px; }
+    .disclaimer { color: var(--muted); font-size: 13px; text-align: center; padding: 28px 0 44px; }
+    .price { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0 2px; }
+    .card { background: var(--panel-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+    .sym { color: var(--muted); font-size: 13px; }
+    .num { font-size: 22px; font-weight: 800; margin-top: 4px; }
+    .up { color: var(--good); font-size: 13px; }
+    @media (max-width: 820px) {
+      .grid { grid-template-columns: 1fr; }
+      nav { position: relative; top: auto; }
+      .price { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 20px; border-radius: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="badge">🧪 试刊版 · Crypto Daily Brief</div>
+    <h1>AI胡搞Crypto早报</h1>
+    <p class="subtitle">高密度 Crypto 新闻流聚合：稳定币监管、ETF/机构资金、链上巨鲸、DeFi 风险处置与宏观信号。</p>
+    <div class="meta">
+      <span class="pill">日期：2026/5/9</span>
+      <span class="pill">版本：网页试刊</span>
+      <span class="pill">风格：快讯聚合 + 分栏目</span>
+    </div>
+  </header>
+
+  <div class="wrap grid">
+    <nav>
+      <div class="toc-title">目录</div>
+      <a href="#top">0. 今日最值得关注</a>
+      <a href="#opportunity">1. 🔬 可关注机会</a>
+      <a href="#stablecoin">2. 🏦 稳定币 / 支付 / RWA</a>
+      <a href="#policy">3. ⚖️ 监管 / 政策</a>
+      <a href="#market">4. 📈 市场 / ETF / 机构</a>
+      <a href="#onchain">5. 🐳 链上 / 巨鲸</a>
+      <a href="#defi">6. 🧩 DeFi / 项目动态</a>
+      <a href="#risk">7. ⚠️ 风险提示</a>
+      <a href="#macro">8. 🌍 宏观 / 其他</a>
+      <a href="#signals">9. 今日信号</a>
+    </nav>
+
+    <main>
+      <section id="top" class="highlight">
+        <h2>0. 今日最值得关注</h2>
+        <ul>
+          <li>美国 CLARITY Act 稳定币收益条款文本公布：禁止仅因持有支付型稳定币获得利息/收益，但允许与真实平台或网络使用行为绑定的奖励；Polymarket 上该法案 2026 年通过概率升至约 55%。<span class="source">原文：<a href="https://cointelegraph.com/news/go-time-after-clarity-act-stablecoin-yield-compromise-finalized">Cointelegraph</a></span></li>
+          <li>Tether 近 30 天冻结超 5.14 亿美元 USDT，涉及以太坊和 Tron 上 370 个地址，其中绝大多数集中在 Tron；稳定币发行方的链上执法角色继续增强。<span class="source">原文：<a href="https://cointelegraph.com/news/what-happened-in-crypto-today">Cointelegraph</a></span></li>
+          <li>Coinbase Q1 净亏损约 3.94 亿美元，营收低于预期；Coinbase CEO 称此前宕机与 AWS 数据中心冷却故障有关，将重新评估交易所架构冗余。<span class="source">原文：<a href="https://cointelegraph.com/news/what-happened-in-crypto-today">Cointelegraph</a> / <a href="https://www.odaily.news/zh-CN/newsflash/480100">Odaily</a></span></li>
+        </ul>
+      </section>
+
+      <section id="opportunity">
+        <h2>1. 🔬 可关注机会</h2>
+        <ul>
+          <li>美国 SOL 现货 ETF 单日净流入 623.46 万美元，仅 Bitwise Solana Staking ETF（BSOL）录得净流入；SOL 现货 ETF 总资产净值约 9.87 亿美元，历史累计净流入约 10.57 亿美元。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480092">Odaily</a></span></li>
+          <li>NEAR 领涨 CoinDesk 20 指数，单日上涨约 6.3%；ICP 涨约 5.8%，山寨板块出现阶段性反弹迹象。<span class="source"><a href="https://www.coindesk.com/coindesk-indices/2026/05/08/coindesk-20-performance-update-near-protocol-near-gains-6-3-leading-index-higher">CoinDesk</a></span></li>
+          <li>Consensus Miami EasyA 黑客松近 1000 名开发者参与，Base、Solana 等生态项目围绕 AI Agents 构建应用；AI Agent + Crypto 仍是开发者侧高频主题。<span class="source"><a href="https://www.coindesk.com/tech/2026/05/08/ai-agents-fueled-a-frenzy-of-startup-building-at-the-consensus-miami-easya-hackathon">CoinDesk</a></span></li>
+        </ul>
+      </section>
+
+      <section id="stablecoin">
+        <h2>2. 🏦 稳定币 / 支付 / RWA</h2>
+        <ul>
+          <li>美国参议员 Elizabeth Warren 致信 Meta CEO 扎克伯格，要求披露 Meta 稳定币整合计划细节；Meta 4 月已在菲律宾和哥伦比亚向部分创作者推出 USDC 支付。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480089">Odaily</a></span></li>
+          <li>欧洲央行行长 Lagarde 警告，Tether、USDC 等大型美元稳定币可能带来欧洲“数字美元化”风险，并在压力时期向底层资产市场传导冲击。<span class="source"><a href="https://www.coindesk.com/business/2026/05/08/ecb-s-lagarde-warns-tether-and-circle-stablecoins-risk-digital-dollarisation-in-europe">CoinDesk</a></span></li>
+          <li>Rain 高管称稳定币银行卡消费额正以约 100% 年化速度增长，稳定币结算可支持周末/假日清算，并减少超过 40% 的被占用资金。<span class="source"><a href="https://www.coindesk.com/business/2026/05/08/stablecoin-card-spend-is-growing-100-year-over-year-rain-exec-says">CoinDesk</a></span></li>
+          <li>Tether 在以太坊网络销毁 20 亿枚 USDT。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480099">Odaily 星球早讯</a></span></li>
+        </ul>
+      </section>
+
+      <section id="policy">
+        <h2>3. ⚖️ 监管 / 政策</h2>
+        <ul>
+          <li>美国参议院银行委员会计划就 CLARITY Act 举行关键市场结构听证会；Coinbase 法务负责人称稳定币收益条款争议解决后，应推进更广泛的加密市场结构法案。<span class="source"><a href="https://www.coindesk.com/policy/2026/05/08/senate-banking-committee-plans-to-hold-key-market-structure-hearing-on-thursday">CoinDesk</a></span></li>
+          <li>SEC 主席 Paul Atkins 表示支持为链上市场与 AI 驱动金融制定新规则，强调自动化结算和区块链市场基础设施需求正在上升。<span class="source"><a href="https://www.coindesk.com/policy/2026/05/08/sec-chair-atkins-signals-new-rules-for-onchain-markets-ai-driven-finance">CoinDesk</a></span></li>
+          <li>Kraken 母公司 Payward 申请 OCC 特许，寻求成为联邦监管的加密银行。<span class="source"><a href="https://www.coindesk.com/policy/2026/05/08/kraken-parent-goes-for-the-occ-charter-in-big-to-become-a-federal-crypto-bank">CoinDesk</a></span></li>
+          <li>俄罗斯国家杜马批准非法挖矿刑事责任法案，未登记挖矿或无证提供挖矿基础设施服务可能面临罚款、强制劳动或最高五年监禁，并没收所挖加密货币。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480096">Odaily</a></span></li>
+        </ul>
+      </section>
+
+      <section id="market">
+        <h2>4. 📈 市场 / ETF / 机构</h2>
+        <div class="price">
+          <div class="card"><div class="sym">BTC</div><div class="num">$80,430</div><div class="up">+1.0% 24h</div></div>
+          <div class="card"><div class="sym">ETH</div><div class="num">$2,317</div><div class="up">+1.7% 24h</div></div>
+          <div class="card"><div class="sym">SOL</div><div class="num">$93.56</div><div class="up">+6.4% 24h</div></div>
+          <div class="card"><div class="sym">NEAR</div><div class="num">$1.61</div><div class="up">+9.9% 24h</div></div>
+        </div>
+        <ul>
+          <li>BTC 一度跌破 80,000 美元，引发约 3 亿美元期货仓位清算；此前美国对伊朗相关军事行动推升油价，风险资产短线承压。<span class="source"><a href="https://www.coindesk.com/markets/2026/05/08/bitcoin-retreats-below-usd80-000-liquidating-usd300-million-in-futures-bets">CoinDesk</a></span></li>
+          <li>Coinbase 股价在业绩承压后反弹，山寨币随 BTC 站回 80,000 美元上方反弹；市场关注美国加密立法与稳定币业务对 Coinbase 长期收入结构的影响。<span class="source"><a href="https://www.coindesk.com/markets/2026/05/08/coinbase-rebounds-as-altcoins-surge-with-bitcoin-holding-above-usd80-000">CoinDesk</a></span></li>
+          <li>现货 BTC ETF 已解决传统投资者“入口”问题，但托管、顾问渠道和后台基础设施仍然滞后。<span class="source"><a href="https://www.coindesk.com/business/2026/05/06/spot-bitcoin-etfs-solved-access-but-custody-advisors-and-plumbing-still-lag-panelists-say">CoinDesk</a></span></li>
+        </ul>
+      </section>
+
+      <section id="onchain">
+        <h2>5. 🐳 链上 / 巨鲸 / 聪明钱</h2>
+        <ul>
+          <li>一地址沉寂 7 个月后买入 6.7 万枚 SOL 和 620 万枚 JUP，合计价值约 775 万美元。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480099">Odaily 星球早讯</a></span></li>
+          <li>一巨鲸建立价值约 1020 万美元 ZEC 多单。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480099">Odaily 星球早讯</a></span></li>
+          <li>Tether 近 30 天在 Tron 与 Ethereum 冻结 370 个地址，合计超 5.14 亿美元 USDT；2025 年冻结总额曾达 12.6 亿美元，当前冻结节奏明显加快。<span class="source"><a href="https://cointelegraph.com/news/what-happened-in-crypto-today">Cointelegraph</a></span></li>
+        </ul>
+      </section>
+
+      <section id="defi">
+        <h2>6. 🧩 DeFi / 项目动态</h2>
+        <ul>
+          <li>Aave 表示 rsETH 事件恢复方案第二阶段推进：黑客在 Aave V3 上 8 个头寸已被清算，Arbitrum DAO 已通过提案，计划归还此前追回的 7100 万美元 ETH；后续包括销毁 Arbitrum 上 rsETH 并恢复储备金。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480101">Odaily</a></span></li>
+          <li>Telegram 创始人称 TON 年度质押奖励位列前 50 加密货币第一。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480099">Odaily 星球早讯</a></span></li>
+        </ul>
+      </section>
+
+      <section id="risk">
+        <h2>7. ⚠️ 风险提示 / 安全事件</h2>
+        <ul>
+          <li>Coinbase 出现数小时交易中断，官方称根因与 AWS 数据中心多个冷却器故障导致机房过热有关；中心化交易所低延迟架构与高可用冗余之间的取舍再次被放大。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480100">Odaily</a></span></li>
+          <li>Arthur Hayes 表示 99% 山寨币可能归零，认为这是正常市场清洗；他将代币视为软件项目，多数失败源于无法获得用户。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480093">Odaily</a></span></li>
+          <li>Revolut 一度显示 BTC 价格为 0.02 美元，用户反馈疑似显示故障；目前尚不清楚是否有成交发生。<span class="source"><a href="https://www.coindesk.com/markets/2026/05/08/bitcoin-shows-2-cent-price-on-revolut-as-users-report-apparent-btc-display-glitch">CoinDesk</a></span></li>
+        </ul>
+      </section>
+
+      <section id="macro">
+        <h2>8. 🌍 宏观 / 其他</h2>
+        <ul>
+          <li>美国 4 月新增就业 11.5 万人，接近预期两倍；就业数据可能影响市场对美联储后续利率路径的定价。<span class="source"><a href="https://www.coindesk.com/markets/2026/05/07/u-s-added-115k-jobs-in-april-nearly-doubling-expectations">CoinDesk</a></span></li>
+          <li>Cathie Wood 表示 AI 与技术驱动的生产力提升正在形成通缩力量，未来 6 至 9 个月通胀可能低于预期，对利率和长期股票有深远影响。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480091">Odaily</a></span></li>
+          <li>中国黄金协会数据显示，2026 年一季度中国黄金消费量 303.292 吨，同比增长 4.41%；其中金条及金币消费同比增长 46.40%。<span class="source"><a href="https://www.odaily.news/zh-CN/newsflash/480104">Odaily</a></span></li>
+        </ul>
+      </section>
+
+      <section id="signals" class="highlight">
+        <h2>9. 今日交易 / 叙事信号</h2>
+        <ul>
+          <li class="signal">稳定币监管进入细则阶段：不是“能不能发”，而是“收益、分发、隐私、储备、合规边界怎么定”。</li>
+          <li class="signal">SOL ETF 继续有净流入，SOL + staking ETF 叙事值得持续跟踪。</li>
+          <li class="signal">Coinbase 财报承压但政策/稳定币预期托底，交易所股更像“监管 beta + 稳定币业务期权”。</li>
+          <li class="signal">Aave rsETH 恢复推进是 DeFi 风险处置案例，可关注后续提款恢复与 LTV 调整。</li>
+          <li class="signal">宏观上油价、就业、利率预期仍会影响 BTC 短线波动，80,000 美元附近仍是情绪锚点。</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="wrap disclaimer">
+    免责声明：以上为新闻聚合与信息整理，不构成投资建议。来源链接均保留用于核查。
+  </footer>
+</body>
+</html>
