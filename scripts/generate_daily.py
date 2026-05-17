@@ -426,6 +426,75 @@ def render_html(buckets: dict[str, list[Item]], prices: dict) -> str:
 </body></html>'''
 
 
+def compact_item(it: Item, max_len: int = 92) -> str:
+    title_prefix = f"{it.author}：" if it.author else ""
+    text = clean_text(title_prefix + it.title)
+    text = re.sub(r"\s*[-—|]\s*(CoinDesk|Cointelegraph|Decrypt)\s*$", "", text, flags=re.I)
+    if len(text) > max_len:
+        text = text[:max_len].rstrip() + "…"
+    tags = []
+    if it.signal in {"bullish", "bearish"}:
+        tags.append("偏多" if it.signal == "bullish" else "偏空")
+    if it.coins:
+        tags.extend(it.coins[:3])
+    suffix = f"（{it.source}{' · ' + '/'.join(tags) if tags else ''}）"
+    return f"- {text}{suffix}"
+
+
+def render_discord_markdown(buckets: dict[str, list[Item]], prices: dict) -> str:
+    """Render a Discord-friendly Chinese version without tables.
+
+    Keep it directly readable in chat. The cron job may split the file into
+    multiple Discord messages if provider limits require it.
+    """
+    lines: list[str] = [f"**{DATE_SLUG} 加密日报 · Discord版**", ""]
+    desired = [
+        ("今日最值得关注", "top", 3),
+        ("可关注机会", "opportunity", 3),
+        ("稳定币 / 支付 / RWA", "stablecoin", 2),
+        ("监管 / 政策", "policy", 2),
+        ("市场 / ETF / 机构", "market", 3),
+        ("链上 / 巨鲸 / 聪明钱", "onchain", 2),
+        ("DeFi / 项目动态", "defi", 2),
+        ("风险提示", "risk", 2),
+    ]
+    for title, gid, limit in desired:
+        lines.append(f"**{title}**")
+        section_items = buckets.get(gid, [])[:limit]
+        if gid == "market" and prices:
+            market_bits = []
+            for key, sym in [("bitcoin", "BTC"), ("ethereum", "ETH"), ("solana", "SOL")]:
+                p = prices.get(key) or {}
+                if p.get("usd") is not None:
+                    chg = p.get("usd_24h_change")
+                    change = f"，24h {chg:+.1f}%" if isinstance(chg, (int, float)) else ""
+                    market_bits.append(f"{sym} ${p['usd']:,.4g}{change}")
+            if market_bits:
+                lines.append("- " + "；".join(market_bits))
+        if section_items:
+            lines.extend(compact_item(it) for it in section_items)
+        else:
+            lines.append("- 暂无高置信条目。")
+        lines.append("")
+
+    lines.append("**今日信号**")
+    top_coins: list[str] = []
+    for group in buckets.values():
+        for it in group:
+            for coin in it.coins:
+                if coin not in top_coins:
+                    top_coins.append(coin)
+    if top_coins:
+        lines.append(f"- 热点标签：{' / '.join(top_coins[:8])}")
+    lines.extend([
+        "- 重点看稳定币监管、ETF 资金流、链上大额异动与 DeFi 安全事件是否共振。",
+        "- 6551 高分、A/A+、币种标签与社交热度已融入排序；单条仍需二次核查。",
+        "",
+        "免责声明：公开信息聚合，不构成投资建议。",
+    ])
+    return "\n".join(lines).strip() + "\n"
+
+
 def update_index() -> None:
     daily = sorted((ROOT / "daily").glob("*.html"), reverse=True)
     items = []
@@ -460,8 +529,9 @@ def main() -> None:
     outdir = ROOT / "daily"
     outdir.mkdir(exist_ok=True)
     (outdir / f"{DATE_SLUG}.html").write_text(render_html(buckets, prices), encoding="utf-8")
+    (outdir / f"{DATE_SLUG}-discord.md").write_text(render_discord_markdown(buckets, prices), encoding="utf-8")
     update_index()
-    print(f"Generated daily/{DATE_SLUG}.html with {len(items)} base items, {len(enhanced_news)} 6551 items, {len(social_items)} social items")
+    print(f"Generated daily/{DATE_SLUG}.html and daily/{DATE_SLUG}-discord.md with {len(items)} base items, {len(enhanced_news)} 6551 items, {len(social_items)} social items")
 
 if __name__ == "__main__":
     main()
